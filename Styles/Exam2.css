@@ -1,0 +1,137 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    width: 100%;
+    background-color: #FDF3E7;
+    width: inherit;
+    font-family: Arial,sans-serif;
+}
+.pageHeaderWrap{
+    display: block;
+    background-color: #C63D0F;
+    color: #FDF3E7;
+    height: 70px;
+    position: relative;
+    border-bottom: 2px solid #3B3738;
+    text-align: left;
+}
+.pageHeader{
+    display: inline-block;
+    position: relative;
+    left: 20px;
+    top: 10px;
+    font-size: 1.5em;
+}
+.inputTableWrap{
+    border: 2px solid #3B3738;
+    background-color: #E3DBD0;
+    position: relative;
+    top: 0px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 80px;
+    border-radius: 5px;
+}
+p{
+    position: relative;
+    top: -30px;
+}
+.inputTable{
+    text-align: right;
+    display: inline-block;
+    background-color: #7E8F7C;
+    color: #FDF3E7;
+    font-size: 1.2em;
+    width: 100%;
+    border: 2px solid #3B3738;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-spacing: 5px;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.loanTableWrap{
+    border: 2px solid #4D81BD;
+    border-radius: 5px;
+    top: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+    width: 1100px;
+    box-shadow: 3px 5px 8px #888888;
+    position: relative;
+    color: #413E4A;
+    display: none;
+}
+.loanTable{
+    width: 100%;
+    border-left: hidden;
+    border-right: hidden;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+.loanTable_header{
+    border: 1px solid #3B3738;
+    background-color: #4D81BD;
+    color: #FFF;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 8px;
+}
+.loanTable_tbody td{
+    border: 1px solid #3B3738;
+    border-collapse: collapse;
+    background-color: #D7E9F7;
+    text-align: right;
+    padding: 8px;
+}
+caption{
+    background-color: #3B3738;
+    color: #FFF;
+    padding: 8px;
+}
+.buttonWrap{
+    display: block;
+    background-color: #3B3738;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    height: 70px;
+    top: -5px;
+    max-width: inherit;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    text-align: center;
+}
+.inputBntSpan{
+    position: relative;
+    top: 17px;
+    left: 50px;
+}
+button{
+    font-size: 0.9em;
+    width: 110px;
+    height: 35px;
+    border-radius: 2px;
+    border: 3px outset #E3DBD0;
+}
+button:hover{
+    font-weight: bold;
+    background-color: #C63D0F;
+    color: #FDF3E7;
+}
+button:active{
+    border: inset;
+}
+input{
+    font-size: 1em;
+    width: 125px;
+    height: 20px;
+}
