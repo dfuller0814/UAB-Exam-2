@@ -7,10 +7,15 @@ $(document).ready(function(){
 	
 	hideSections();
 	
-	$("section[optionVal=" + selectedOption + "]").show();
-	
-	
-	
+        if (selectedOption == "catList"){
+            //Build table to store Category List data from server
+            //Execute GET method to server to get Category List
+            var serviceName = "getAllCategories";
+            sendRequest("GET",true,serviceName,null);
+        }
+	else{
+            $("section[optionVal=" + selectedOption + "]").show();   
+        }
     });
 // ----------------------------------------------------------------------
 
@@ -184,8 +189,38 @@ function hideSections() {
 	});
 	$(allSections).each(function(){
 	    $(this).hide();
-	});	
+	});
+        
+        //Remove Category List Table from the DOM when the user leaves the section
+        var tableCheck = document.getElementById("catListTable");
+        if (tableCheck != null) {
+            console.log("Table exists..Removing");
+            $("#catListTable").remove();
+        }
+        
 }
+
+// -------------------------------------------------------------------------------------------------------------
+
+// ---------------------- Build Category List Table --------------------------------------------------------------
+function createTable(jsonObj,webService) {
+    var table;
+    var tbody;
+    var row;
+    var cell;
+    $("#categoryListSection", function(){
+        table = $("<table/>").addClass("catListTable").append("<tbody/>");
+        tbody = $("tbody")
+    
+    });
+        
+        
+        
+  
+
+}
+
+// -------------------------------------------------------------------------------------------------------------
     
     
     
@@ -194,6 +229,8 @@ function sendRequest(method,async,serviceName,reqString) {
     console.log("Request method begun");
     var request = new XMLHttpRequest();
     var url = "http://bus-pluto.ad.uab.edu/jsonwebservice/service1.svc/";
+    console.log("Request Method is: " + method);
+    console.log("Service Requested: " + serviceName);
     if (method == "GET") {
 	
 	//Request String in this case will be the Customer Id
@@ -203,6 +240,12 @@ function sendRequest(method,async,serviceName,reqString) {
 	    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	    request.send();
 	}
+        else if(serviceName == "getAllCategories"){
+            url += serviceName;
+            request.open(method,url,async);
+            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            request.send();
+        }
     }
     else if (method == "POST") {
 	url += serviceName;
@@ -219,6 +262,8 @@ function sendRequest(method,async,serviceName,reqString) {
 	if (request.readyState == 4 && request.status == 200){
 		console.log("Final Server Response: " + request.responseText);
 		var reqResult = JSON.parse(request.responseText);
+                console.log("JSON object " + reqResult.GetAllCategoriesResult);
+                console.log("JSON object length :: " + reqResult.GetAllCategoriesResult.length);
 		checkResult(reqResult,serviceName);
 	    }
     }
@@ -232,7 +277,20 @@ function sendRequest(method,async,serviceName,reqString) {
 
 function checkResult(jsonResult,serviceName) {
     
-    // -------------------------NewCustomer Service Check ----------------------------------------------------
+    // -------------------------All Categories Service Check ----------------------------------------------------
+    
+    if (serviceName == "getAllCategories") {
+	if (typeof jsonResult.GetAllCategoriesResult != "undefined" && jsonResult.GetAllCategoriesResult != null){
+            //Build Categories List Table
+            createTable(jsonResult,serviceName);
+        }
+        
+        else{
+            //Can add error message if the list returns null if needed
+        }
+}
+    
+    // -------------------------NewCustomer Service Check -------------------------------------------------------
     if (serviceName == "CreateCustomer") {
 	if (jsonResult.WasSuccessful == 1) {
 	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/successpic.png");

@@ -162,19 +162,18 @@ button:active{
     height: 1.5em;
     float: left;
 }
-.customerTable{
+.catListTable{
     display: table;
     position: relative;
-    width: 100%;
     border-collapse: collapse;
     text-align: right;
 }
-.customerTable_caption{
+.catListTable_caption{
     background-color: #3B3738;
     color: #FFF;
     padding: 8px;
 }
-.customerTable_tbody td{
+.catListTable_tbody td{
     border: 1px solid #3B3738;
     border-collapse: collapse;
     background-color: #D7E9F7;
