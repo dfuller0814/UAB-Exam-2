@@ -11,7 +11,13 @@ $(document).ready(function(){
             //Build table to store Category List data from server
             //Execute GET method to server to get Category List
             var serviceName = "getAllCategories";
-            sendRequest("GET",true,serviceName,null);
+            $("#retrieveMessage").fadeToggle();
+            $.when(sendRequest("GET",true,serviceName,null)).done(function(){
+                setTimeout(function(){
+                    $("#retrieveMessage").hide();
+                    $("#categoryListSection").fadeToggle();
+                }, 2000);
+            });
         }
 	else{
             $("section[optionVal=" + selectedOption + "]").show();   
@@ -22,12 +28,11 @@ $(document).ready(function(){
 
 
 
-// ------ User Clicks Submit in New Customer Section ------------------------
+// ------ User Clicks Submit in New Product Category Section ------------------------
     $("#submitBtnNewCust").click(function(){
-	    var customerId = $("#custIdInput").val().replace(/\s+/g,"");
-	    var custName = $("#custNameInput").val();
-	    var custCity = $("#custCityInput").val();
-	    var serviceName = "CreateCustomer";
+	    var catName = $("#catNameInput").val();
+	    var catDesc = $("#catDescInput").val();
+	    var serviceName = "CreateCategory";
 	    
 	    if (customerId.length < 5 || customerId.length > 5) {
 		$("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
@@ -206,13 +211,27 @@ function hideSections() {
 function createTable(jsonObj,webService) {
     var table;
     var tbody;
+    var thead;
     var row;
     var cell;
-    $("#categoryListSection", function(){
-        table = $("<table/>").addClass("catListTable").append("<tbody/>");
-        tbody = $("tbody")
+    table = $("<table/>").append("<thead/>,<tbody/>").addClass("catListTable").prop("id", "catListTable");
     
-    });
+    //Add table to the Table section
+    $("#categoryListSection").append($(table));
+    
+    //Create Table Header
+    thead = $("#catListTable > thead").prop("id","catListTableHeader").append("<tr><td>Category ID</td><td>Category Name</td><td>Category Description</td></tr>");
+    
+    //Table Body
+    tbody = $("#catListTable > tbody").prop("id","catListTbody").addClass("catListTable_tbody");
+    
+    for(var i=0; i < jsonObj.GetAllCategoriesResult.length; i++){   
+        //Create all table rows based on object length
+        $(tbody).append("<tr><td>" +
+                        jsonObj.GetAllCategoriesResult[i].CID +
+                        "</td>" + "<td>" + jsonObj.GetAllCategoriesResult[i].CName +
+                        "</td>" + "<td>" + jsonObj.GetAllCategoriesResult[i].CDescription + "</td>" + "</tr>");
+    }
         
         
         
