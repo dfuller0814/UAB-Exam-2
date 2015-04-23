@@ -55,7 +55,7 @@ $(document).ready(function(){
 	    var catDesc = $("#updateCatDescInput").val();
 	    var serviceName = "updateCatDescription";
     
-            if (catId != "") {
+            if (catId != "" && catDesc != "") {
                 //Build request string from user input
                 var requestString = '{"CID":"' + catId + '","CDescription":"' + catDesc + '"}';
                 console.log("String submitted " + requestString);
