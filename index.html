@@ -41,7 +41,7 @@
     <!-- Section 2 - Create Product Category -->
     <section id="addCatSection" class="inputTableWrap" optionVal="addCat">
             <div id="addCatErrorDiv" class="messageDiv">
-                <img id="shipInfoImg" src="Images/errorpic.png" alt="Error Icon" class="resultIcon" />
+                <img id="newProdImg" src="Images/errorpic.png" alt="Error Icon" class="resultIcon" />
                 <p id="messageBoxUpdateOrder" class="resultMessage"></p>
             </div>
             <table id="prodCatInputTable" class="inputTable">
@@ -52,7 +52,7 @@
                             <label for="catNameInput">Category Name:</label>
                         </td>
                         <td>
-                            <input id="catNameInput" type="text" class="inputText" maxlength="15">
+                            <input id="catNameInput" required="true" type="text" class="inputText" maxlength="15">
                         </td>
                     </tr>
                     <tr>
@@ -60,15 +60,15 @@
                             <label for="catDescInput">Category Description:</label>
                         </td>
                         <td>
-                            <textarea id="catDescInput"></textarea>
+                            <textarea id="catDescInput" required="true"></textarea>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div id="buttonWrap" class="buttonWrap">
             <span id="inputBntSpan" class="inputBntSpan">
-                <button id="shipClear" customName="clear"> CLEAR </button>
-                <button id="submitBtnShipInfo"> SUBMIT </button>
+                <button id="newCatClear" customName="clear"> CLEAR </button>
+                <button id="submitNewCat"> SUBMIT </button>
             </span>
         </div>
     </section>
@@ -83,27 +83,27 @@
                 <caption><b><u>Update Product Category Description</u></b></caption>
                 <tbody>
                     <tr>
-                        <td>
+                        <td class="labels">
                             <label for="catIdInput">Category ID:</label>
                         </td>
                         <td>
-                            <input id="catIdInput" type="text" class="inputText">
+                            <input id="catIdInput" type="text" class="inputText" required="true">
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td class="labels">
                             <label for="catDescInput">Category Description:</label>
                         </td>
                         <td>
-                            <input id="catDescInput" type="text" class="inputText">
+                            <textarea id="updateCatDescInput"></textarea>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div id="buttonWrap" class="buttonWrap">
             <span id="inputBntSpan" class="inputBntSpan">
-                <button id="shipClear" customName="clear"> CLEAR </button>
-                <button id="submitBtnShipInfo"> SUBMIT </button>
+                <button id="updateCatClear" customName="clear"> CLEAR </button>
+                <button id="submitUpdateCat"> SUBMIT </button>
             </span>
         </div>
     </section>
@@ -119,10 +119,10 @@
                 <tbody>
                     <tr>
                         <td>
-                            <label for="custIdDelInput">Category ID:</label>
+                            <label for="catIdDelInput">Category ID:</label>
                         </td>
                         <td>
-                            <input id="custIdDelInput" type="text" class="inputText">
+                            <input id="catIdDelInput" type="text" class="inputText" required="true">
                         </td>
                     </tr>
                 </tbody>

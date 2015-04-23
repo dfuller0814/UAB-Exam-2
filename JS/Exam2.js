@@ -29,37 +29,18 @@ $(document).ready(function(){
 
 
 // ------ User Clicks Submit in New Product Category Section ------------------------
-    $("#submitBtnNewCust").click(function(){
+    $("#submitNewCat").click(function(){
 	    var catName = $("#catNameInput").val();
 	    var catDesc = $("#catDescInput").val();
 	    var serviceName = "CreateCategory";
-	    
-	    if (customerId.length < 5 || customerId.length > 5) {
-		$("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
-		$("section[optionVal]:visible > div.messageDiv").each(function(){
-		    if ($(this).hasClass("messageDiv_success")) {
-			$(this).removeClass("messageDiv_success").addClass("messageDiv_error");
-		    }
-		    else{
-			$(this).addClass("messageDiv_error");
-		    }
-		
-		
-		    $("section[optionVal]:visible > div.messageDiv > p.resultMessage").html("Input Validation Error: " + "<br/>" + "<br/>" +
-											"Customer Id Must be Exactly 5 Digits. Enter a Valid Customer Id and Click <b>Submit</b> again");
-		
-		    $(this).show("fast");
-		});
-	    }
-	    
-	    else{
-		//Build request string from user input
-		var requestString = '{"CustomerID":"' + customerId + '","CompanyName":"' + custName + '","City":"' + custCity + '"}';
-		console.log("String submitted " + requestString);
-		//Submit request to server
-		sendRequest("POST",true,serviceName,requestString);	
-	    }
-	    
+            
+            if (catName != "" && catDesc != "") {
+                //Build request string from user input
+                var requestString = '{"CName":"' + catName + '","CDescription":"' + catDesc + '"}';
+                console.log("String submitted " + requestString);
+                //Submit request to server
+                sendRequest("POST",true,serviceName,requestString);
+            }
     });
     
 
@@ -68,43 +49,19 @@ $(document).ready(function(){
 
 
 
-// ------ User Clicks Submit in Shipping Info Section ------------------------
-    $("#submitBtnShipInfo").click(function(){
-	    var orderNum = $("#orderNumInput").val();
-	    var shipName = $("#shipNameInput").val();
-	    var shipStreet = $("#shipStreetInput").val();
-	    var shipCity = document.getElementById("shipCityInput").value;
-	    var shipPostal = document.getElementById("shipPostalCode").value;
-	    var serviceName = "updateOrderAddress";
-	    
-	    if (orderNum == "") {
-		$("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
-		$("section[optionVal]:visible > div.messageDiv").each(function(){
-		    if ($(this).hasClass("messageDiv_success")) {
-			$(this).removeClass("messageDiv_success").addClass("messageDiv_error");
-		    }
-		    else{
-			$(this).addClass("messageDiv_error");
-		    }
-		
-		
-		    $("section[optionVal]:visible > div.messageDiv > p.resultMessage").html("Input Validation Error: " + "<br/>" + "<br/>" +
-											"Order Number is a Required Field. Please Enter a Valid Order Number and Click <b>Submit</b> again");
-		
-		    $(this).show("fast");
-		
-		});
-	    }
-	    
-	    else{
-		//Build request string from user input
-		var requestString = '{"OrderID":"' + orderNum + '","ShipName":"' + shipName + '","ShipCity":"' + shipCity + '","ShipPostcode":"' + shipPostal +
-		'","ShipAddress":"' + shipStreet + '"}';
-		console.log("String submitted: " + requestString);
-		
-		//Submit request to server
-		sendRequest("POST",true,serviceName,requestString);
-	    }
+// ------ User Clicks Submit in Update Category Info Section ------------------------
+    $("#submitUpdateCat").click(function(){
+	    var catId = $("#catIdInput").val();
+	    var catDesc = $("#updateCatDescInput").val();
+	    var serviceName = "updateCatDescription";
+    
+            if (catId != "") {
+                //Build request string from user input
+                var requestString = '{"CID":"' + catId + '","CDescription":"' + catDesc + '"}';
+                console.log("String submitted " + requestString);
+                //Submit request to server
+                sendRequest("POST",true,serviceName,requestString);
+            }	
 	    
     });
     
@@ -112,41 +69,20 @@ $(document).ready(function(){
 
 // -----------------------------------------------------------------------------
 
-// ------ User Clicks Submit in Delete Customer Section ------------------------
+// ------ User Clicks Submit in Delete Product Category Section ------------------------
     $("#submitBtnDelCust").click(function(){
-	    var customerId = $("#custIdDelInput").val();
-	    var serviceName = "deleteCustomer";
-	    
-	    //Check if Customer Id is Populated
-	    if (customerId == "") {
-		$("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
-		$("section[optionVal]:visible > div.messageDiv").each(function(){
-		    if ($(this).hasClass("messageDiv_success")) {
-			$(this).removeClass("messageDiv_success").addClass("messageDiv_error");
-		    }
-		    else{
-			$(this).addClass("messageDiv_error");
-		    }
-		
-		
-		    $("section[optionVal]:visible > div.messageDiv > p.resultMessage").html("Input Validation Error: " + "<br/>" + "<br/>" +
-											"Customer Id is a Required Field. Please Enter a Valid Customer Id and Click <b>Submit</b> again");
-		
-		    $(this).show("fast");
-		
-		});
-	    }
-	    
-	    //Once receiving confirmation from the user, submit the request
-	    else{
-		//Submit request to server
-		var confirmation = window.confirm("Once a Customer is deleted, that customer cannot be recovered. Are you sure you want to delete this customer?");
-		if (confirmation == true) {
-		    sendRequest("GET",true,serviceName,customerId);
-		}
-	    }
+        var catId = $("#catIdDelInput").val();
+        var serviceName = "deleteCategory";
+	
+        if (catId != "") {
+            //Submit request to server
+            var confirmation = window.confirm("Once a Product Category is deleted, that product category cannot be recovered. Are you sure you want to delete this record?");
+            if (confirmation == true) {
+                sendRequest("GET",true,serviceName,catId);
+            }
+        }
+        
     });
-    
 
 
 // ------------------------------------------------------------------------------
@@ -157,6 +93,11 @@ $(document).ready(function(){
 	
 	//Clear the innerHTML text of all input fields and the error message div
 	$("section[optionVal]:visible > table.inputTable > tbody > tr > td > input").each(function(){
+	    $(this).val("");
+	});
+        
+        //Clear the innerHTML text of all text area fields and the error message div
+	$("section[optionVal]:visible > table.inputTable > tbody > tr > td > textarea").each(function(){
 	    $(this).val("");
 	});
 	
@@ -252,7 +193,6 @@ function sendRequest(method,async,serviceName,reqString) {
     console.log("Service Requested: " + serviceName);
     if (method == "GET") {
 	
-	//Request String in this case will be the Customer Id
 	if (serviceName == "deleteCustomer") {
 	    url += serviceName + "/" + reqString;
 	    request.open(method,url,async);
@@ -265,6 +205,13 @@ function sendRequest(method,async,serviceName,reqString) {
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             request.send();
         }
+        
+        else if (serviceName == "deleteCategory") {
+	    url += serviceName + "/" + reqString;
+	    request.open(method,url,async);
+	    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    request.send();
+	}
     }
     else if (method == "POST") {
 	url += serviceName;
@@ -281,8 +228,6 @@ function sendRequest(method,async,serviceName,reqString) {
 	if (request.readyState == 4 && request.status == 200){
 		console.log("Final Server Response: " + request.responseText);
 		var reqResult = JSON.parse(request.responseText);
-                console.log("JSON object " + reqResult.GetAllCategoriesResult);
-                console.log("JSON object length :: " + reqResult.GetAllCategoriesResult.length);
 		checkResult(reqResult,serviceName);
 	    }
     }
@@ -309,8 +254,150 @@ function checkResult(jsonResult,serviceName) {
         }
 }
     
-    // -------------------------NewCustomer Service Check -------------------------------------------------------
-    if (serviceName == "CreateCustomer") {
+    
+    // -------------------------Update Product Category Service Check -----------------------------------------------------
+    
+    else if (serviceName == "updateCatDescription") {
+	if(jsonResult.WasSuccessful == 1){
+	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/successpic.png");
+	    
+	    //Remove the error class from all message boxes and add success class
+	    $("section[optionVal]:visible > div.messageDiv").each(function(){
+		if ($(this).hasClass("messageDiv_error")) {
+		    $(this).removeClass("messageDiv_error").addClass("messageDiv_success");
+		}
+		else{
+		    $(this).addClass("messageDiv_success");
+		}
+		
+		//Populate message box with success message
+		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
+		    $(this).text("Product Category Updated Successfully");
+		});
+		
+		//Display message box
+		$(this).show("fast");
+	    });
+	}
+    
+	else if(jsonResult.WasSuccessful == -2){
+	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
+	    
+	    //Remove the success class from message box and add success class
+	    $("section[optionVal]:visible > div.messageDiv").each(function(){
+		if ($(this).hasClass("messageDiv_success")) {
+		    $(this).removeClass("messageDiv_success").addClass("messageDiv_error");
+		}
+		else{
+		    $(this).addClass("messageDiv_error");
+		}
+		
+		//Populate message box with error message
+		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
+		    $(this).html("Update Failed: " + "<br/>" + "<br/>" + "Invalid Data String Sent to the Server");
+		});
+		
+		//Display message box
+		$(this).show("fast");
+	    });
+	}
+    
+	else if(jsonResult.WasSuccessful == -3){
+	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
+	    
+	    //Remove the success class from message box and add success class
+	    $("section[optionVal]:visible > div.messageDiv").each(function(){
+		if ($(this).hasClass("messageDiv_success")) {
+		    $(this).removeClass("messageDiv_success").addClass("messageDiv_error");
+		}
+		else{
+		    $(this).addClass("messageDiv_error");
+		}
+		
+		//Populate message box with error message
+		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
+		    $(this).html("Update Failed: " + "<br/>" + "<br/>" + "The Specified Order ID Could Not Be Found");
+		});
+		
+		//Display message box
+		$(this).show("fast");
+	    });
+	}
+	
+	else if(jsonResult.WasSuccessful == 0){
+	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
+	    
+	    //Remove the success class from message box and add success class
+	    $("section[optionVal]:visible > div.messageDiv").each(function(){
+		if ($(this).hasClass("messageDiv_success")) {
+		    $(this).removeClass("messageDiv_success").addClass("messageDiv_error");
+		}
+		else{
+		    $(this).addClass("messageDiv_error");
+		}
+		
+		//Populate message box with error message
+		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
+		    $(this).html("Update Failed: " + "<br/>" + "<br/>" + "Unspecified status code of 0 returned from the server");
+		});
+		
+		//Display message box
+		$(this).show("fast");
+	    });
+	}
+    }
+    
+    //-------------------------------- DeleteCustomer Service Check --------------------------------------------------
+    
+    if (serviceName == "deleteCategory") {
+	if (jsonResult.DeleteCategoryResult.WasSuccessful == 1) {
+	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/successpic.png");
+	    
+	    //Remove the error class from all message boxes and add success class
+	    $("section[optionVal]:visible > div.messageDiv").each(function(){
+		if ($(this).hasClass("messageDiv_error")) {
+		    $(this).removeClass("messageDiv_error").addClass("messageDiv_success");
+		}
+		else{
+		    $(this).addClass("messageDiv_success");
+		}
+		
+		//Populate message box with success message
+		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
+		    $(this).text("Product Category Deleted Successfully");
+		});
+		
+		//Display message box
+		$(this).show("fast");
+	    });
+	}
+	
+	else{
+	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
+	    
+	    //Remove the success class from message box and add success class
+	    $("section[optionVal]:visible > div.messageDiv").each(function(){
+		if ($(this).hasClass("messageDiv_success")) {
+		    $(this).removeClass("messageDiv_success").addClass("messageDiv_error");
+		}
+		else{
+		    $(this).addClass("messageDiv_error");
+		}
+		
+		//Populate message box with error message
+		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
+		    $(this).html("Delete Failed: " + "<br/>" + "<br/>" + jsonResult.DeleteCategoryResult.Exception);
+		});
+		
+		//Display message box
+		$(this).show("fast");
+	    });
+	}
+    }
+    
+    
+    // -------------------------New Product Category Service Check -------------------------------------------------------
+    if (serviceName == "CreateCategory") {
 	if (jsonResult.WasSuccessful == 1) {
 	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/successpic.png");
 	    
@@ -325,7 +412,7 @@ function checkResult(jsonResult,serviceName) {
 		
 		//Populate message box with success message
 		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
-		    $(this).text("New Customer Created Successfully");
+		    $(this).text("New Product Category Created Successfully");
 		});
 		
 		//Display message box
@@ -356,147 +443,6 @@ function checkResult(jsonResult,serviceName) {
 	}
     }
     // -----------------------------------------------------------------------------------------------------------
-    
-    
-    // -------------------------UpdateShipping Service Check -----------------------------------------------------
-    
-    else if (serviceName == "updateOrderAddress") {
-	if(jsonResult == 1){
-	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/successpic.png");
-	    
-	    //Remove the error class from all message boxes and add success class
-	    $("section[optionVal]:visible > div.messageDiv").each(function(){
-		if ($(this).hasClass("messageDiv_error")) {
-		    $(this).removeClass("messageDiv_error").addClass("messageDiv_success");
-		}
-		else{
-		    $(this).addClass("messageDiv_success");
-		}
-		
-		//Populate message box with success message
-		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
-		    $(this).text("Shipping Address Updated Successfully");
-		});
-		
-		//Display message box
-		$(this).show("fast");
-	    });
-	}
-    
-	else if(jsonResult == -2){
-	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
-	    
-	    //Remove the success class from message box and add success class
-	    $("section[optionVal]:visible > div.messageDiv").each(function(){
-		if ($(this).hasClass("messageDiv_success")) {
-		    $(this).removeClass("messageDiv_success").addClass("messageDiv_error");
-		}
-		else{
-		    $(this).addClass("messageDiv_error");
-		}
-		
-		//Populate message box with error message
-		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
-		    $(this).html("Update Failed: " + "<br/>" + "<br/>" + "Invalid Data String Sent to the Server");
-		});
-		
-		//Display message box
-		$(this).show("fast");
-	    });
-	}
-    
-	else if(jsonResult == -3){
-	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
-	    
-	    //Remove the success class from message box and add success class
-	    $("section[optionVal]:visible > div.messageDiv").each(function(){
-		if ($(this).hasClass("messageDiv_success")) {
-		    $(this).removeClass("messageDiv_success").addClass("messageDiv_error");
-		}
-		else{
-		    $(this).addClass("messageDiv_error");
-		}
-		
-		//Populate message box with error message
-		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
-		    $(this).html("Update Failed: " + "<br/>" + "<br/>" + "The Specified Order ID Could Not Be Found");
-		});
-		
-		//Display message box
-		$(this).show("fast");
-	    });
-	}
-	
-	else if(jsonResult == 0){
-	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
-	    
-	    //Remove the success class from message box and add success class
-	    $("section[optionVal]:visible > div.messageDiv").each(function(){
-		if ($(this).hasClass("messageDiv_success")) {
-		    $(this).removeClass("messageDiv_success").addClass("messageDiv_error");
-		}
-		else{
-		    $(this).addClass("messageDiv_error");
-		}
-		
-		//Populate message box with error message
-		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
-		    $(this).html("Update Failed: " + "<br/>" + "<br/>" + "Unspecified status code of 0 returned from the server");
-		});
-		
-		//Display message box
-		$(this).show("fast");
-	    });
-	}
-    }
-    
-    //-------------------------------- DeleteCustomer Service Check --------------------------------------------------
-    
-    if (serviceName == "deleteCustomer") {
-	if (jsonResult.DeleteCustomerResult.WasSuccessful == 1) {
-	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/successpic.png");
-	    
-	    //Remove the error class from all message boxes and add success class
-	    $("section[optionVal]:visible > div.messageDiv").each(function(){
-		if ($(this).hasClass("messageDiv_error")) {
-		    $(this).removeClass("messageDiv_error").addClass("messageDiv_success");
-		}
-		else{
-		    $(this).addClass("messageDiv_success");
-		}
-		
-		//Populate message box with success message
-		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
-		    $(this).text("Customer Deleted Successfully");
-		});
-		
-		//Display message box
-		$(this).show("fast");
-	    });
-	}
-	
-	else{
-	    $("section[optionVal]:visible > div.messageDiv > img.resultIcon").attr("src", "Images/errorpic.png");
-	    
-	    //Remove the success class from message box and add success class
-	    $("section[optionVal]:visible > div.messageDiv").each(function(){
-		if ($(this).hasClass("messageDiv_success")) {
-		    $(this).removeClass("messageDiv_success").addClass("messageDiv_error");
-		}
-		else{
-		    $(this).addClass("messageDiv_error");
-		}
-		
-		//Populate message box with error message
-		$("section[optionVal]:visible > div.messageDiv > p.resultMessage").each(function(){
-		    $(this).html("Delete Failed: " + "<br/>" + "<br/>" + jsonResult.DeleteCustomerResult.Exception);
-		});
-		
-		//Display message box
-		$(this).show("fast");
-	    });
-	}
-    }
 }
 
 // ************************************************************************
